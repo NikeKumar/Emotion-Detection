@@ -3,11 +3,15 @@ import cv2
 from flask import Flask, render_template, request, Response
 import keras.utils as image 
 import numpy as np
-from keras.models import model_from_json  
+from keras.models import model_from_json, Sequential  
 import keras.utils as image  
 
 #load model  
-model = model_from_json(open("models/fer_model.json", "r").read())  
+with open("models/fer_model.json", "r") as json_file:
+    loaded_model_json = json_file.read()
+
+model = model_from_json(loaded_model_json, custom_objects={'Sequential': Sequential})  # Now this will work
+  
 #load weights  
 model.load_weights('models/fer_model.h5')  
 
